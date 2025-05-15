@@ -6,24 +6,23 @@ Proyek ini bertujuan untuk memprediksi permintaan gudang berdasarkan data histor
 
 Dataset terdiri dari fitur-fitur berikut:
 
-| Fitur | Tipe Data | Deskripsi |
-|------|------------|------------|
-| `product_name` | Kategorikal | Nama produk |
-| `year` | Numerik | Tahun prediksi |
-| `month` | Numerik | Bulan prediksi |
-| `season` | Kategorikal | Musim: Panas / Hujan |
-| `is_holiday` | Biner | Apakah ada hari libur nasional |
-| `holiday_impact` | Numerik | Faktor pengali dampak libur |
-| `is_promo` | Biner | Apakah ada promo saat itu |
-| `promo_discount` | Numerik | Besaran diskon (0–1) |
-| `avg_temp` | Numerik | Suhu rata-rata |
-| `last_3months_sales` | Numerik | Total penjualan 3 bulan terakhir |
-| `sales_trend` | Numerik | Tren penjualan (0–1 turun, >1 naik) |
-| `event` | Kategorikal | Event khusus seperti Idul Fitri, Natal, dll. |
-| `event_encoded` | Numerik | Encoding event (manual mapping) |
-| `event_multiplier` | Numerik | Pengali khusus untuk event tertentu |
-| `moving_average` | Numerik | Rata-rata bergerak dari permintaan sebelumnya |
-| `demand` | Numerik | Target permintaan aktual (target variabel) |
+| Kolom | Deskripsi |
+|-------|-----------|
+| `Date` | Tanggal pengamatan |
+| `Kategori` | Kategori produk |
+| `Tipe/Model` | Jenis model produk |
+| `Season` | Musim saat pengamatan (Kemarau/Hujan) |
+| `Demand` | Permintaan aktual (nilai target) |
+| `Past_Demand_1` | Permintaan bulan sebelumnya |
+| `Past_Demand_2` | Permintaan dua bulan sebelumnya |
+| `Moving_Average` | Rata-rata permintaan 3 periode |
+| `Sales_Trend` | Tren perubahan penjualan |
+| `Event` | Event khusus (Idul Fitri, Natal, dll.) |
+| `Event_Multiplier` | Pengali dampak event |
+| `Safety Percentage` | Persentase tambahan untuk stok aman |
+| `Event_Demand_Estimated` | Estimasi permintaan akibat event |
+| `Location` | Lokasi gudang/distribusi |
+| `Latitude`, `Longitude` | Koordinat lokasi |
 
 ### 📌 Event Encoding (Manual)
 
@@ -40,23 +39,20 @@ Dataset terdiri dari fitur-fitur berikut:
 
 ## 🧮 Rumus Perhitungan Penting
 
-### 1. **Moving Average (3 Periode):**
-
-\[
-\text{Moving Average} = \frac{{\text{Past\_Demand\_1} + \text{Past\_Demand\_2} + \text{Past\_Demand\_3}}}{3}
-\]
+### Moving Average (3 Periode)
+```latex
+Moving\ Average = \frac{Past\_Demand\_1 + Past\_Demand\_2 + Demand}{3}
+```
 
 ### 2. **Sales Trend:**
-
-\[
-\text{Sales Trend} = \frac{{\text{Past\_Demand\_1}}}{\text{Past\_Demand\_2}}
-\]
+```latex
+Sales\ Trend = \frac{Past\_Demand\_1}{Past\_Demand\_2}
+```
 
 ### 3. **Estimated Demand (Optional Formula):**
-
-\[
-\text{Estimated Demand} = \text{Moving Average} \times \text{Sales Trend} \times \text{Holiday Impact} \times \text{Event Multiplier}
-\]
+```latex
+Estimated\ Demand = Moving\ Average \times Sales\ Trend \times Event\ Multiplier \times (1 + Safety\ Percentage)
+```
 
 ## 🤖 Model Machine Learning
 
