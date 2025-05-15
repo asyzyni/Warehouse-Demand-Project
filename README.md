@@ -1,71 +1,22 @@
-# 📦 Warehouse Demand Forecasting
+# 📦 Proyek Prediksi Permintaan Gudang
 
-Proyek ini bertujuan untuk memprediksi permintaan gudang berdasarkan data historis dan faktor eksternal seperti event nasional, promosi, musim, dan tren penjualan.
+Proyek ini bertujuan untuk memprediksi permintaan gudang berdasarkan data historis, event musiman, dan informasi lokasi dengan bantuan machine learning. Dataset mencakup variabel seperti musim, permintaan masa lalu, tren penjualan, event, dan banyak lagi.
 
-## 📊 Dataset
+## 📝 Deskripsi Proyek
 
-Dataset terdiri dari fitur-fitur berikut:
+Dalam dunia logistik, estimasi permintaan sangat penting untuk menghindari kekurangan stok atau kelebihan stok. Proyek ini menggunakan model prediktif untuk membantu gudang menentukan jumlah permintaan yang optimal setiap periode.
 
-| Kolom | Deskripsi |
-|-------|-----------|
-| `Date` | Tanggal pengamatan |
-| `Kategori` | Kategori produk |
-| `Tipe/Model` | Jenis model produk |
-| `Season` | Musim saat pengamatan (Kemarau/Hujan) |
-| `Demand` | Permintaan aktual (nilai target) |
-| `Past_Demand_1` | Permintaan bulan sebelumnya |
-| `Past_Demand_2` | Permintaan dua bulan sebelumnya |
-| `Moving_Average` | Rata-rata permintaan 3 periode |
-| `Sales_Trend` | Tren perubahan penjualan |
-| `Event` | Event khusus (Idul Fitri, Natal, dll.) |
-| `Event_Multiplier` | Pengali dampak event |
-| `Safety Percentage` | Persentase tambahan untuk stok aman |
-| `Event_Demand_Estimated` | Estimasi permintaan akibat event |
-| `Location` | Lokasi gudang/distribusi |
-| `Latitude`, `Longitude` | Koordinat lokasi |
+Dataset yang digunakan mencakup kolom-kolom seperti:
+- Tanggal (`Date`)
+- Kategori dan Model Produk
+- Musim (`Season`)
+- Permintaan Historis dan Rata-rata Bergerak
+- Event (`Event`) dan pengaruhnya
+- Koordinat Lokasi
 
-### 📌 Event Encoding (Manual)
+## ⚙️ Cara Instalasi
 
-| Event | Encoding |
-|-------|----------|
-| Idul Fitri | 1 |
-| Natal | 2 |
-| Tahun Baru | 3 |
-| Idul Adha | 4 |
-| Imlek | 5 |
-| 17 Agustus | 6 |
-| Nyepi | 7 |
-| No Event | 8 |
-
-## 🧮 Rumus Perhitungan Penting
-
-### Moving Average (3 Periode)
-```latex
-Moving\ Average = \frac{Past\_Demand\_1 + Past\_Demand\_2 + Demand}{3}
-```
-
-### 2. **Sales Trend:**
-```latex
-Sales\ Trend = \frac{Past\_Demand\_1}{Past\_Demand\_2}
-```
-
-### 3. **Estimated Demand (Optional Formula):**
-```latex
-Estimated\ Demand = Moving\ Average \times Sales\ Trend \times Event\ Multiplier \times (1 + Safety\ Percentage)
-```
-
-## 🤖 Model Machine Learning
-
-Berikut model yang digunakan untuk regresi permintaan:
-
-- XGBoost 🧠
-
-
-## 🧪 Evaluasi Model
-
-- **MAE** (Mean Absolute Error)
-- **RMSE** (Root Mean Squared Error)
-- **R² Score**
-
-
-
+1. **Clone repositori ini**
+```bash
+git clone https://github.com/asyzyni/Warehouse-Demand-Project.git
+cd Warehourse-Demand-Project
