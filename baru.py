@@ -7,9 +7,8 @@ import matplotlib.pyplot as plt
 from datetime import datetime 
 
 # load data
-data_path ="/Users/asyzyni/Documents/COLLEGE👩🏻‍🏫/_SEMESTER 4/Warehouse-Demand-Website/Warehouse-Demand-Website/Quantity-Prediction Data.xlsx"
+data_path = "/Users/asyzyni/Documents/COLLEGE👩🏻‍🏫/_SEMESTER 4/Warehouse-Demand-Website/Warehouse-Demand-Website/Quantity-Prediction Data.xlsx"
 df = pd.read_excel(data_path)
-
 
 # config page 
 st.set_page_config(page_title="Warehouse Demand Prediction", layout="centered")
@@ -17,9 +16,22 @@ st.title("Warehouse Demand Prediction")
 st.subheader("Input your data to predict the demand of a warehouse")
 
 # input form 
-selected_date = st.date_input("Input Date")
-demand = st.number_input("Input Demand Value", min_value=0, value=100)
+locations = [
+    "Batam", "Bekasi", "Cibitung", "Jakarta", "Makassar", 
+    "Medan", "Semarang", "Sidoarjo", "Surabaya", "Tangerang"
+]
+selected_location = st.selectbox("Select Location", locations)
 
+months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+]
+selected_month = st.selectbox("Select Month", months)
+month_number = months.index(selected_month) + 1
+
+demand = st.number_input("Input Base Demand Value", min_value=0, value=100)
+
+# event detector
 def detect_event(date):
     if date.month == 1 and date.day == 1:
         return "New_Year", 1.2, 0.30
@@ -58,13 +70,29 @@ def detect_event(date):
     elif date.month == 12 and date.day == 12: # 12-12
         return "Tanggal_Kembar", 1.3, 0.35
     else:
-        return "No_Event", 1.0, 0.15
+        return "No_Event", 1.0, 0.15 
+        
+def event():
+        # Date input
+    selected_date = st.date_input("Pilih tanggal", datetime.today())
     
-row = df[df["Date"] == pd.datetime(selected_date)] 
+        # Extract month and day
+    month = selected_date.month
+    day = selected_date.day
+            
+    # Detect event
+    event_name, multiplier, bonus = detect_event(month, day)
+    
+    # Display results
+    st.subheader("Hasil Deteksi Event")
+    st.write(f"Tanggal: {selected_date.strftime('%d %B %Y')}")
+    st.write(f"Event: **{event_name.replace('_', ' ')}**")
 
-if not row.empty:
-    multiplier = flow(row["Moving_Average"].values[0])
-    safety_percent = float(row["Safety Percentage"].values[0].replace("%", "")) / 100 
-    event = row["Event"].values[0]
-else:
-    event, multiplier, safety_percent = detect_event(pd.to_datetime(selected_date))
+
+''' 
+yang belum : 
+1. hasil multipler belum masuk bisa menentukan 
+2. deploying ml + pipelinenya 
+3. buat event detect lebih rapi 
+4. datanya bisa dibuat geser 
+'''
